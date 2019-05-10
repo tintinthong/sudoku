@@ -18,19 +18,20 @@
 } */
 
 td{
-    background-color:white;
     border: solid;
     border-width: 1px;
-    border-color: black;
     width:30px;
     height:30px;
-}
+} 
 
 
- td.firsty{
+
+td.firsty{
     border-left-color: black;
     border-left-width: 4px;
 } 
+
+
 
 td.middley{
     border-left-color: black;
@@ -43,7 +44,7 @@ td.lasty{
 }  
 
 .firstx td{
-    /* background-color:purple; */
+
     border-top-color: black;
     border-top-width: 4px;
 }  
@@ -56,22 +57,7 @@ td.lasty{
 .lastx td {
     border-bottom-color: black;
     border-bottom-width: 4px;
-}
-
-
-
-
-
-/*
-.firsty td{
-    border-left-color: purple;
-}
-
-.lasty td{
-    border-right-color: purple;
-}
-     */
-
+} 
 
 
 

@@ -2,7 +2,7 @@
 
 
 function createBoard(big, small){
-    var checkerBoard = [];
+    var board = [];
     
     for(var i = 0; i < big; i++){
         
@@ -22,12 +22,13 @@ function createBoard(big, small){
             row.addClass('middlex')
         }
         
-        checkerBoard.push(row);
+        board.push(row);
         
         
         for(var j = 0; j < big; j++){
             
             var elm= $('<td>');
+            
             
             
             console.log("this is j = "+ j)
@@ -51,8 +52,7 @@ function createBoard(big, small){
             }
             
             
-            checkerBoard[i].append(elm)
-            
+            board[i].append(elm)
             
             
             
@@ -60,7 +60,9 @@ function createBoard(big, small){
         
     }
     
-    $('tbody').empty().append(checkerBoard);
+    $('tbody').empty().append(board);
+
+    return board
     
     // console.log(checkerBoard)
     

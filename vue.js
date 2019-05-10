@@ -5,7 +5,7 @@ new Vue({
     data: {
         big:16,
         error: false,
-        theme: "red"
+        theme: "Black"
     },
     computed:{
         small: {
