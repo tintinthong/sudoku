@@ -1,0 +1,80 @@
+
+<!-- Must use head tag to activate vue -->
+<head>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+    
+    <h1> Sudoku Board </h1>
+    
+    
+    <span id="spanid"></span>
+    
+    <!-- <div id="app-big">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div> -->
+    
+    
+    <div id="app">
+        <div><span>Size of Board {{ big }}</span></div>
+        <input id="big" placeholder="enter a number" v-model="big">
+        
+        <div><span>Size of Small Square {{ small }}</span></div>
+        <input id="small" placeholder="enter a number" v-model="small">
+        
+        <div>Some appearing and fading out alert</div>
+        
+        <div>
+            <button id="buttonmain" >Create Board </button>
+            <!-- <button id="buttonmain" v-on:click="createBoard">Create Board </button> -->
+        </div>
+        
+        
+        <div><span>The theme chosen is {{ theme }}</span></div>
+        <select v-model="theme">
+            <option disabled value="">Choose a Theme</option>
+            <option>Red</option>
+            <option>Blue</option>
+            <option>Green</option>
+        </select>
+        
+    </div>
+    
+    <table id="gameBoard">
+        <tbody>
+            <!-- <tr>
+                <td>dafadsf</td>
+                <td>dafadsf</td>
+            </tr> -->
+            
+        </tbody>
+        
+    </table>
+    
+    
+    
+    
+    <!-- <form action="/create_board.js">
+        Number of Squares: <input type="text" name="Big" value=2><br>
+        <input type="submit" value="Submit">
+    </form> -->
+    
+    
+    
+    
+    
+</body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="create_board.js"></script>
+<!-- The recent create_board is vue -->
+<script src="vue.js"></script>
+<script src="jquery.js"></script>
+<script src="helper.js"></script>
+
+
