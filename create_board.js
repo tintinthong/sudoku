@@ -1,5 +1,4 @@
-
-
+//this is the jquery way to create a board 
 
 function createBoard(big, small){
     var board = [];

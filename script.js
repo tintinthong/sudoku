@@ -1,13 +1,70 @@
 
+/**
+* Creates Sudoku Object 
+* @constructor
+* 
+* @param {number} small number of squres in small square 
+* @param {number} big number of squares in big square
+* @returns {object}
+*/
+
+function createSudoku(small,big){
+    //check small<big
+    //check small is a factor of big
+    
+    //create squarepartition
+    //create arrayrow
+    //create colrow 
+    //create squarerow
+    
+    this.big = big;
+    this.small = small;
+    this.dim = [big,big];
+    
+    //creates partition for squares
+    this.partitionx= createPartition(this.small,this.big);
+    this.partitiony= createPartition(this.small,this.big);
+    
+    //creates matrix
+    this.matrix= createMatrix(this.big);
+    
+    //arrays for filling matrix
+    this.arrayrow = create2dArray(this.big, this.big);
+    this.arraysquare = create3dArray(this.small,this.small,this.big);
+    
+    //#### Methods ####
+    
+    //print object
+    this.print = function(){
+        for (i in this){
+            console.log(i);
+            for (key in this[i]){
+                console.log( key + ": " + this[i][key]);
+            }
+        }
+        
+    }
+    
+    //prints matrix
+    this.printMatrix= function(){
+        console.log(this.matrix)
+    }
+    
+    this.printPartition= function(){
+        console.log(this.partition)
+    }
+    
+    
+};
 
 
 /**
- * Creates a partition
- * 
- * @param {number} small number of squres in small square
- * @param {number} big number of squares in big square
- * @returns {array} 
- */
+* Creates a partition
+* 
+* @param {number} small number of squres in small square
+* @param {number} big number of squares in big square
+* @returns {array} 
+*/
 
 function createPartition(small, big){
     //need to check small< big 
@@ -29,19 +86,19 @@ function createPartition(small, big){
 
 
 /**
- * Finds which partition an index is from
- * 
- * @param {number} i index position 
- * @param {number} big number of squares in big square
- * @returns {number} index of partition
- */
+* Finds which partition an index is from
+* 
+* @param {number} i index position 
+* @param {number} big number of squares in big square
+* @returns {number} index of partition
+*/
 
 function whichPartition(i, partition ){
-
+    
     var map1 = partition.map(elm => elm <= i);
-
+    
     var pos= map1.filter(Boolean).length-1;
-  
+    
     return pos;
 };
 //console.log(whichPartition(3,[0,2]))
@@ -52,67 +109,13 @@ function whichPartition(i, partition ){
 
 
 
-/**
- * Creates Sudoku Object 
- * @constructor
- * 
- * @param {number} small number of squres in small square 
- * @param {number} big number of squares in big square
- * @returns {object}
- */
-
-function createBigSquare(small,big){
-    //check small<big
-    //check small is a factor of big
-    
-    //create squarepartition
-    //create arrayrow
-    //create colrow 
-    //create squarerow
-    
-    this.big = big;
-    this.small = small;
-    this.dim = [big,big];
-
-    //creates partition for squares
-    this.partitionx= createPartition(small,big);
-    this.partitiony=createPartition(small,big);
-
-    //creates matrix
-    this.matrix= createMatrix(this.big);
-    
-    //#### Methods ####
-
-    //print object
-    this.print = function(){
-        for (i in this){
-            console.log(i);
-            for (key in this[i]){
-                console.log( key + ": " + this[i][key]);
-            }
-        }
-        
-    }
-
-    //prints matrix
-    this.printMatrix= function(){
-        console.log(this.matrix)
-    }
-
-    this.printPartition= function(){
-        console.log(this.partition)
-    }
-    
-    
-    
-};
 
 /**
- * Creates empty matrix of size n by n (of zeroes)
- * 
- * @param {number} big number of squares in big square
- * @returns {array**2} 2d array 
- */
+* Creates empty matrix of size n by n (of zeroes)
+* 
+* @param {number} big number of squares in big square
+* @returns {array**2} 2d array 
+*/
 
 function createMatrix(big){
     var matrix = [];
@@ -127,11 +130,59 @@ function createMatrix(big){
 
 
 /**
- * Creates an array of 1:n 
- * 
- * @param {number} n some number
- * @returns {array} Array of numbers 
- */
+* Creates an m by n array with each row having 1:n
+* 
+* @param {number} m number of rows
+* @param {number} n number of cols
+* @returns {array**2} 2d array 
+*/
+// each row represents the set of elements in each square
+function create2dArray(m,n){
+    
+    var array=[];
+    var numbers = seq(n);
+    
+    for (var i=0; i<m; i++) {
+        array.push(numbers)
+    }
+    return array 
+}
+// console.log(create2dArray(9,9))
+
+/**
+* Creates an m by n by k array with final dimension having 1:k
+* 
+* @param {number} m number in dimension 1 (small)
+* @param {number} n number in dimension 2 (small)
+* @param {number} k number in dimension 3 (big)
+* @returns {array**2} 2d array 
+*/
+// each row represents the set of elements in each square
+//please check the reference
+function create3dArray(m,n,k){
+    
+    var array=[];
+    var numbers = seq(k);
+    
+    for (var i=0; i<m; i++) {
+        var array2=[];
+        array.push(array2);
+        for (var j=0; j<n; j++){
+            array2.push(numbers);
+        }
+        
+    }
+    return array 
+}
+// console.log(create3dArray(2,2,4))
+// console.log(create3dArray(3,3,9))
+
+/**
+* Creates an array of 1:n 
+* 
+* @param {number} n some number
+* @returns {array} Array of numbers 
+*/
 function seq(n){
     var array=[];
     for(var i=1; i<=n;i++){
@@ -143,11 +194,11 @@ function seq(n){
 
 
 /**
- * Generate single random number from collection 1:n
- * 
- * @param {number} n some number
- * @returns {array} Array of random numbers
- */
+* Generate single random number from collection 1:n
+* 
+* @param {number} n some number
+* @returns {array} Array of random numbers
+*/
 function getRandomNum(n) {
     var out = Math.floor(Math.random() * Math.floor(n));
     // console.log("this is the rand= ", out);
@@ -159,12 +210,12 @@ function getRandomNum(n) {
 
 
 /**
- * Check wheather a number is in a row 
- * 
- * @param {number} number some number
- * @param {array} line row of numbers
- * @returns {boolean} true or false
- */
+* Check wheather a number is in a row 
+* 
+* @param {number} number some number
+* @param {array} line row of numbers
+* @returns {boolean} true or false
+*/
 function check(number, line ){
     // console.log("this is the line= "+ line)
     // console.log("this is the number= "+ number );
@@ -180,53 +231,54 @@ function check(number, line ){
 
 
 /**
- * Check wheather a number is in i-th row of matrix
- * 
- * @param {number} number some number
- * @param {number} i index of row
- * @param {array**2} matrix 
- * @returns {boolean} true or false
- */
+* Check wheather a number is in i-th row of matrix
+* 
+* @param {number} number some number
+* @param {number} i index of row
+* @param {array**2} matrix 
+* @returns {boolean} true or false
+*/
 function checkRow(number,i,matrix){
     return check(number, matrix[i]);
 };
-var M=[[2,10,3], [6,5,3], [9,0,4]]; 
+// var M=[[2,10,3], [6,5,3], [9,0,4]]; 
 // console.log(checkRow(10, 1 , M));
 // console.log(checkRow(6, 1 , M));
 
 
 /**
- * Check wheather a number is in j-th column of matrix
- * 
- * @param {number} number some number
- * @param {number} j index of column
- * @param {array**2} matrix 
- * @returns {boolean} true or false
- */
+* Check whether a number is in j-th column of matrix
+* 
+* @param {number} number some number
+* @param {number} j index of column
+* @param {array**2} matrix 
+* @returns {boolean} true or false
+*/
 function checkCol(number,j,matrix){
     var matrixt=matrix.map((col, i) => matrix.map(col => col[i]));
     return check(number, matrixt[j]);
 };
-var M=[[2,10,3], [6,5,3], [9,0,4]]; 
+// var M=[[2,10,3], [6,5,3], [9,0,4]]; 
 // console.log(checkCol(10, 0 , M));
 // console.log(checkCol(5, 1 , M));
 
 
+
 /**
- *  Finds which square a position belongs to
- * 
- * @param {number} i some number
- * @param {number} j index of column
- * @param {array**2} matrix 
- * @returns {boolean} true or false
- */
+*  Finds which square a position belongs to
+* 
+* @param {number} i some number
+* @param {number} j index of column
+* @param {array**2} matrix 
+* @returns {boolean} true or false
+*/
 // Find which partition 
 function whichSquare(i,j,partitionx,partitiony){
     
     array=[whichPartition(i,partitionx),whichPartition(j,partitiony)]; //0th coordinate
     
     return array
-
+    
 };
 // console.log(whichSquare(0,0,[0,2],[0,2]))
 // console.log(createPartition(4,16))
@@ -235,12 +287,12 @@ function whichSquare(i,j,partitionx,partitiony){
 
 
 /**
- *  Fills row i with numbers 
- * 
- * @param {number} i some number
- * @param {array**2} matrix 
- * @returns {array**2} matrix
- */
+*  Fills row i with numbers 
+* 
+* @param {number} i some number
+* @param {array**2} matrix 
+* @returns {array**2} matrix
+*/
 function fillLine(i,matrix){
     
     var big= matrix.length; 
@@ -297,33 +349,55 @@ function fillLine(i,matrix){
     //can i just use the leftover without checking
     return matrix;
     
-};
-console.log(createMatrix(2))
-console.log(fillLine(0,createMatrix(4)))
+}
+// console.log(createMatrix(2))
+// console.log(fillLine(0,createMatrix(4)))
 
+
+/**
+* Check whether a number in a square is still available to use or not in the ith square
+* 
+* @param {number} number some number
+* @param {array}  square  square [x,y]
+* @param {object} obj sudoku object
+* @returns {boolean} true or false
+*/
+// this is slightly cheating because it is looking at whether a number has been used in a square
+//looking at arraysquare
+function checkSquare(number ,square, obj){
+    check(number, obj.arraysquare[square[0],square[1]])
+    
+}
+
+var sudoku = {small:2,
+    big:4, 
+    yeeha: this.big,
+    howdy: function(){
+        return this.big
+    }
+}
+// partitionx: function(){
+//     return createPartition(this.small,this.big)
+// },
+// partitiony: createPartition(this.small,this.big)
+sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
+console.log(sudoku)
+// whichSquare(1,1, sudoku.partitionx, sudoku.partitiony);
+// console.log(createPartition(sudoku.small,sudoku.big))
 
 //###################################stopped commenting here
 
-/**
- * Check whether 
- * 
- * @param {array**2} matrix 
- * @returns {array**2} matrix
- */
 
-function checkSquare(matrix){
-    return matrix
-}
-    
+
 
 /**
- * Filling empty matrix with numbers
- * 
- * @param {array**2} matrix 
- * @returns {array**2} matrix
- */
+* Filling empty matrix with numbers
+* 
+* @param {array**2} matrix 
+* @returns {array**2} matrix
+*/
 function fillMatrix(matrix){
-
+    
     var big=matrix.length;
     for (var i=0; i<big; i++) {
         fillLine(i,matrix);
