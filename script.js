@@ -140,10 +140,9 @@ function createMatrix(big){
 function create2dArray(m,n){
     
     var array=[];
-    var numbers = seq(n);
     
     for (var i=0; i<m; i++) {
-        array.push(numbers)
+        array.push( seq(n))
     }
     return array 
 }
@@ -162,13 +161,12 @@ function create2dArray(m,n){
 function create3dArray(m,n,k){
     
     var array=[];
-    var numbers = seq(k);
     
     for (var i=0; i<m; i++) {
         var array2=[];
         array.push(array2);
         for (var j=0; j<n; j++){
-            array2.push(numbers);
+            array2.push(seq(k));
         }
         
     }
@@ -274,84 +272,12 @@ function checkCol(number,j,matrix){
 */
 // Find which partition 
 function whichSquare(i,j,partitionx,partitiony){
-    
-    array=[whichPartition(i,partitionx),whichPartition(j,partitiony)]; //0th coordinate
-    
-    return array
+    return [whichPartition(i,partitionx),whichPartition(j,partitiony)]
     
 };
 // console.log(whichSquare(0,0,[0,2],[0,2]))
 // console.log(createPartition(4,16))
 // console.log(whichSquare(4,8,createPartition(4,16),createPartition(4,16)))
-
-
-
-/**
-*  Fills row i with numbers 
-* 
-* @param {number} i some number
-* @param {array**2} matrix 
-* @returns {array**2} matrix
-*/
-function fillLine(i,matrix){
-    
-    var big= matrix.length; 
-    
-    //check if it is empty
-    var array=seq(big); //create numbers
-    
-    var len= array.length;
-    // console.log(array);
-    // console.log(matrix)
-    
-    for (var j=0; j<(len-1); j++) {
-        var lenx=len-j; //reducing array size
-        
-        console.log("j= "+j);
-        console.log("this is lenx= ", lenx)
-        
-        //random stuff
-        var ind =getRandomNum(lenx);
-        var elm= array[ind];
-        
-        // console.log("below is the array",array);
-        // console.log("selected element is ", elm);
-        
-        var tot=0;
-        while(checkRow(elm,i,matrix) || checkCol(elm,j,matrix) ){
-            
-            var ind = getRandomNum(lenx);
-            var elm= array[ind];
-            console.log("this is ind "+ ind + " this is elm " +elm)
-            
-            if(tot>100){
-                console.log("Running for too long");
-                return 
-            }
-            tot++;
-        };
-        
-        matrix[i][j] = elm;
-        
-        array.splice(ind,1); //removing element at particular index
-        
-        // console.log("loop number "+ j+" random index is "+ind);
-        // console.log(array);
-    };
-    
-    // 3,4,1,2
-    // 2,1,4,3
-    // 1,2,3,4
-    // 4,3,2,1
-    
-    matrix[i][big-1]=array[0];
-    // console.log(array);
-    //can i just use the leftover without checking
-    return matrix;
-    
-}
-// console.log(createMatrix(2))
-// console.log(fillLine(0,createMatrix(4)))
 
 
 /**
@@ -364,31 +290,126 @@ function fillLine(i,matrix){
 */
 // this is slightly cheating because it is looking at whether a number has been used in a square
 //looking at arraysquare
-function checkSquare(number ,square, obj){
-    check(number, obj.arraysquare[square[0],square[1]])
+//maybe instead of obj use arraysquare
+function checkSquare(number ,square, arraysquare){
     
-}
-
-var sudoku = {small:2,
-    big:4, 
-    yeeha: this.big,
-    howdy: function(){
-        return this.big
+    if(check(number, arraysquare[square[0]][square[1]])){
+        return true
+    }else{
+        return false
     }
 }
-// partitionx: function(){
-//     return createPartition(this.small,this.big)
-// },
-// partitiony: createPartition(this.small,this.big)
+
+/**
+* Check whether a number in a square is still available to use or not in the ith square
+* 
+* @param {number} number some number
+* @param {array}  square  square [x,y]
+* @param {object} obj sudoku object
+* @returns {boolean} true or false
+*/
+// this is slightly cheating because it is looking at whether a number has been used in a square
+//looking at arraysquare
+//maybe instead of obj use arraysquare
+function checkSquare2(number ,square, obj){
+    
+    if(check(number, obj.arraysquare[square[0]][square[1]])){
+        return true
+    }else{
+        return false
+    }
+}
+
+// var sudoku = {
+//     small:2,
+//     big:4
+// }
+// sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
+// sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
+// sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
+// console.log(sudoku)
+// console.log(checkSquare(4,[0,1],sudoku))
+
+
+//start by filling a line
+function fillLine(i,obj){
+    
+    //these all variables by reference
+    var big=obj.big;
+    var small=obj.small;
+    var partitionx=obj.partitionx;
+    var partitiony=obj.partitiony;
+    var matrix= obj.matrix;
+    var arrayrow=obj.arrayrow;
+    var arraysquare=obj.arraysquare;
+    
+    //new variables created
+    var array= arrayrow[i];
+    var len=array.length;
+    
+    // console.log("this is array before splicing"+ array)
+    // console.log(arrayrow)
+    
+    for (var j=0; j<big; j++) {
+        
+        var ind= getRandomNum(array.length);
+        var elm= array[ind];
+        
+        var square= whichSquare(i,j,partitionx,partitiony);
+        console.log(i+" "+j+" "+square)
+        
+        var tot=0;
+        
+        // //you can also check arrayrow
+        // // but we are only using the cheat with arraysquare
+        // while(checkRow(elm,i,matrix)||checkCol(elm,j,matrix)||checkSquare(elm,square,arraysquare)){
+        //     var ind= getRandomNum(array.length);
+        //     var elm= array[ind];
+        //     if(tot>100){
+        //         console.log("Running for too long");
+        //         return 
+        //     }
+        //     tot++;
+        // }
+        
+        matrix[i][j]=elm;
+        
+        array.splice(ind,1)
+        arraysquare[square[0]][square[1]].splice(arraysquare[square[0]][square[1]].indexOf(elm),1)
+        
+        
+    };
+    
+}
+var sudoku = {
+    small:2,
+    big:4
+}
+sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
+sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
 sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
+sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
+sudoku.matrix=createMatrix(sudoku.big);
 console.log(sudoku)
-// whichSquare(1,1, sudoku.partitionx, sudoku.partitiony);
-// console.log(createPartition(sudoku.small,sudoku.big))
+fillLine(0,sudoku)
+console.log(sudoku)
+
+
+
+
+
+
+
+
 
 //###################################stopped commenting here
 
 
-
+//readMatrix with already filled values
+//and remove values according to arraysquare and arrayline 
+function readMatrix(){
+    return true
+}
 
 /**
 * Filling empty matrix with numbers
@@ -406,7 +427,6 @@ function fillMatrix(matrix){
     
 }
 // console.log(fillMatrix(createMatrix(2**2)))
-
 
 
 
