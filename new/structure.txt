@@ -1,0 +1,25 @@
+
+
+
+
+Create Sudoku Puzzle 
+- take a matrix and encode it for solving 
+- create a matrix (seed)
+ - change numbers
+ - rotate board
+ - flip board 
+
+Solve Sudoku Puzzle 
+- backtracing algorithm 
+
+UI
+- Form Fill
+- Board 
+
+
+
+
+
+
+
+

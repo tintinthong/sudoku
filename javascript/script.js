@@ -30,8 +30,9 @@ function createSudoku(small,big){
     
     //arrays for filling matrix
     this.arrayrow = create2dArray(this.big, this.big);
-    this.arraysquare = create3dArray(this.small,this.small,this.big);
-    
+    // this.arraysquare = create3dArray(this.small,this.small,this.big);
+    this.arraysquare = create3dArray(this.partitionx.length,this.partitiony.length,this.big);
+
     //#### Methods ####
     
     //print object
@@ -266,25 +267,18 @@ function checkCol(number,j,matrix){
 // console.log(checkCol(10, 0 , M));
 // console.log(checkCol(5, 1 , M));
 
-
-
 /**
 *  Finds which square a position belongs to
 * 
-* @param {number} i some number
-* @param {number} j index of column
-* @param {array**2} matrix 
-* @returns {boolean} true or false
+* @param {number} i row index of number
+* @param {number} j column index of number
+* @param {array} partitionx  x partition
+* @param {array} partitiony  y partition (partitions give coordinate of square)
+* @returns {array} Coordinate of square 
 */
-// Find which partition 
 function whichSquare(i,j,partitionx,partitiony){
     return [whichPartition(i,partitionx),whichPartition(j,partitiony)]
-    
 };
-// console.log(whichSquare(0,0,[0,2],[0,2]))
-// console.log(createPartition(4,16))
-// console.log(whichSquare(4,8,createPartition(4,16),createPartition(4,16)))
-
 
 /**
 * Check whether a number in a square is still available to use or not in the ith square
@@ -297,27 +291,7 @@ function whichSquare(i,j,partitionx,partitiony){
 // this is slightly cheating because it is looking at whether a number has been used in a square
 //looking at arraysquare
 //maybe instead of obj use arraysquare
-function checkSquare(number ,square, arraysquare){
-    
-    if(check(number, arraysquare[square[0]][square[1]])){
-        return true
-    }else{
-        return false
-    }
-}
-
-/**
-* Check whether a number in a square is still available to use or not in the ith square
-* 
-* @param {number} number some number
-* @param {array}  square  square [x,y]
-* @param {object} obj sudoku object
-* @returns {boolean} true or false
-*/
-// this is slightly cheating because it is looking at whether a number has been used in a square
-//looking at arraysquare
-//maybe instead of obj use arraysquare
-function checkSquare2(number ,square, obj){
+function checkSquare(number ,square, obj){
     
     if(check(number, obj.arraysquare[square[0]][square[1]])){
         return true
@@ -325,7 +299,6 @@ function checkSquare2(number ,square, obj){
         return false
     }
 }
-
 // var sudoku = {
 //     small:2,
 //     big:4
@@ -333,8 +306,10 @@ function checkSquare2(number ,square, obj){
 // sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
 // sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
 // sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
-// console.log(sudoku)
-// console.log(checkSquare(4,[0,1],sudoku))
+// sudoku.arraysquare[0][0][1]=0; // square 0
+// sudoku.arraysquare[1][0][2]=0; // square 1
+// console.log(sudoku);
+// // console.log(checkSquare(1,[0,1],sudoku))
 
 
 
@@ -360,9 +335,10 @@ function fillLine(i,obj){
     //new variables created
     var array= arrayrow[i];
     var len=array.length;
+    console.log(arraysquare);
     
-    
-    
+   
+
     for (var j=0; j<big; j++) {
         
         var ind= getRandomNum(array.length);
@@ -373,6 +349,8 @@ function fillLine(i,obj){
         // checkSquare
         // checkLastFill
         // checkLastFillMatrix
+
+       
         
         var tot=0;
         while(checkRow(elm,i,matrix)||checkCol(elm,j,matrix)){ // ||checkSquare(elm,square,arraysquare)
@@ -395,19 +373,21 @@ function fillLine(i,obj){
     };
     
 }
+
 var sudoku = {
     small:2,
     big:4
-}
-// sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
-// sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
-// sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
-// sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
-// sudoku.matrix=createMatrix(sudoku.big);
-// console.log(sudoku)
-// fillLine(0,sudoku)
-// console.log(sudoku)
-// sudoku.printMatrix;
+};
+sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
+sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
+sudoku.arraysquare = create3dArray(sudoku.partitionx.length,sudoku.partitiony.length,sudoku.big);
+sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
+sudoku.matrix=createMatrix(sudoku.big);
+
+console.log(sudoku)
+fillLine(0,sudoku)
+console.log(sudoku)
+sudoku.printMatrix;
 
 
 /**
