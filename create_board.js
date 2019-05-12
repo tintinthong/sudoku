@@ -1,6 +1,8 @@
 //this is the jquery way to create a board 
 
 function createBoard(big, small){
+
+    //creating object here
     var board = [];
     
     for(var i = 0; i < big; i++){
@@ -30,29 +32,28 @@ function createBoard(big, small){
             
             
             
-            console.log("this is j = "+ j)
+            // console.log("this is j = "+ j)
             
             if(j==0){
-                console.log("j == 0")
+                // console.log("j == 0")
                 elm.addClass('firsty')
                 
             }
             
             if(j==(big-1)){
-                console.log("j == big ")
+                // console.log("j == big ")
                 elm.addClass('lasty')
                 
             }
             
             if(j%small==0 && j!=0 && j!=(big-1)){
-                console.log("j is mod ")
+                // console.log("j is mod ")
                 elm.addClass('middley')
                 
             }
             
             
             board[i].append(elm)
-            
             
             
         }

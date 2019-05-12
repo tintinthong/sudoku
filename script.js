@@ -331,6 +331,14 @@ function checkSquare2(number ,square, obj){
 // console.log(checkSquare(4,[0,1],sudoku))
 
 
+
+/**
+* Fill ith line of matrix with random numbers
+* 
+* @param {number} i
+* @param {object} obj sudoku object
+* @returns {object} sudoku object
+*/
 //start by filling a line
 function fillLine(i,obj){
     
@@ -360,18 +368,22 @@ function fillLine(i,obj){
         
         var tot=0;
         
-        // //you can also check arrayrow
-        // // but we are only using the cheat with arraysquare
-        // while(checkRow(elm,i,matrix)||checkCol(elm,j,matrix)||checkSquare(elm,square,arraysquare)){
-        //     var ind= getRandomNum(array.length);
-        //     var elm= array[ind];
-        //     if(tot>100){
-        //         console.log("Running for too long");
-        //         return 
-        //     }
-        //     tot++;
-        // }
+
+        //justin check this!!
+        //you can also check arrayrow
+        // but we are only using the cheat with arraysquare
+        while(checkRow(elm,i,matrix)||checkCol(elm,j,matrix)){ // ||checkSquare(elm,square,arraysquare)
+            
+            var ind= getRandomNum(array.length);
+            var elm= array[ind];
+            if(tot>200){
+                console.log("Running for too long");
+                return 
+            }
+            tot++;
+        }
         
+        // console.log("j equals= "+ j)
         matrix[i][j]=elm;
         
         array.splice(ind,1)
@@ -381,33 +393,58 @@ function fillLine(i,obj){
     };
     
 }
-var sudoku = {
-    small:2,
-    big:4
+// var sudoku = {
+//     small:2,
+//     big:4
+// }
+// sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
+// sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
+// sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
+// sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
+// sudoku.matrix=createMatrix(sudoku.big);
+// console.log(sudoku)
+// fillLine(0,sudoku)
+// console.log(sudoku)
+
+
+/**
+* Fill matrix with random numbers
+* 
+* @param {number} number some number
+* @param {array}  square  square [x,y]
+* @param {object} obj sudoku object
+* @returns {boolean} true or false
+*/
+function fillMatrix(obj){
+
+    for (var i=0; i<obj.big; i++) {
+        fillLine(i,obj)
+    };
+    return obj;
+     
 }
-sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
-sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
-sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
-sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
-sudoku.matrix=createMatrix(sudoku.big);
-console.log(sudoku)
-fillLine(0,sudoku)
-console.log(sudoku)
+// sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
+// sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
+// sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
+// sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
+// sudoku.matrix=createMatrix(sudoku.big);
+// console.log(sudoku)
+// fillMatrix(sudoku);
+// console.log(sudoku)
+// console.log(sudoku.matrix)
 
 
-
-
-
-
-
-
+// 3, 2, 4, 1 
+// 2, 4, 3, 1
+// 4, 1, 2, 3 
+// 1, 4, 2, 3
 
 //###################################stopped commenting here
 
 
 //readMatrix with already filled values
 //and remove values according to arraysquare and arrayline 
-function readMatrix(){
+function readMatrix(matrix){
     return true
 }
 
@@ -417,7 +454,7 @@ function readMatrix(){
 * @param {array**2} matrix 
 * @returns {array**2} matrix
 */
-function fillMatrix(matrix){
+function fillMatrix2(matrix){
     
     var big=matrix.length;
     for (var i=0; i<big; i++) {
