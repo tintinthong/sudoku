@@ -3,14 +3,14 @@ $(function(){
   
   var small= $('#small').val()
   var big= $('#big').val()
-
-  //create object here 
-//  var obj= createSudoku(small,big);
+  
+  
   
   $( "#createboard" ).click(function() {
-
     
     
+      // // creat object here
+      // var obj= createSudoku(small,big);
     
     var color= $("select option:selected").text().toLowerCase();
     
@@ -26,7 +26,7 @@ $(function(){
   });
   
   $( "#addnumbers" ).click(function() {
-  
+    
     //creating board
     addNumbers(null);
     

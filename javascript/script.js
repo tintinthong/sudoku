@@ -47,7 +47,13 @@ function createSudoku(small,big){
     
     //prints matrix
     this.printMatrix= function(){
-        console.log(this.matrix)
+        
+        for (var i=0; i<this.matrix.length; i++) {
+            for (var j=0; j<this.matrix[0].length; j++) {
+                console.log(this.matrix[i][j]+ " ")
+            }
+        }
+        
     }
     
     this.printPartition= function(){
@@ -355,8 +361,7 @@ function fillLine(i,obj){
     var array= arrayrow[i];
     var len=array.length;
     
-    // console.log("this is array before splicing"+ array)
-    // console.log(arrayrow)
+    
     
     for (var j=0; j<big; j++) {
         
@@ -364,14 +369,12 @@ function fillLine(i,obj){
         var elm= array[ind];
         
         var square= whichSquare(i,j,partitionx,partitiony);
-        console.log(i+" "+j+" "+square)
+        
+        // checkSquare
+        // checkLastFill
+        // checkLastFillMatrix
         
         var tot=0;
-        
-
-        //justin check this!!
-        //you can also check arrayrow
-        // but we are only using the cheat with arraysquare
         while(checkRow(elm,i,matrix)||checkCol(elm,j,matrix)){ // ||checkSquare(elm,square,arraysquare)
             
             var ind= getRandomNum(array.length);
@@ -383,7 +386,6 @@ function fillLine(i,obj){
             tot++;
         }
         
-        // console.log("j equals= "+ j)
         matrix[i][j]=elm;
         
         array.splice(ind,1)
@@ -393,10 +395,10 @@ function fillLine(i,obj){
     };
     
 }
-// var sudoku = {
-//     small:2,
-//     big:4
-// }
+var sudoku = {
+    small:2,
+    big:4
+}
 // sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
 // sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
 // sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
@@ -405,6 +407,7 @@ function fillLine(i,obj){
 // console.log(sudoku)
 // fillLine(0,sudoku)
 // console.log(sudoku)
+// sudoku.printMatrix;
 
 
 /**
@@ -416,28 +419,101 @@ function fillLine(i,obj){
 * @returns {boolean} true or false
 */
 function fillMatrix(obj){
-
+    
     for (var i=0; i<obj.big; i++) {
         fillLine(i,obj)
     };
     return obj;
-     
+    
 }
+// var sudoku = {
+//     small:2,
+//     big:4
+// }
 // sudoku.partitionx=createPartition(sudoku.small,sudoku.big)
 // sudoku.partitiony=createPartition(sudoku.small,sudoku.big)
 // sudoku.arraysquare = create3dArray(sudoku.small,sudoku.small,sudoku.big)
 // sudoku.arrayrow= create2dArray(sudoku.big,sudoku.big)
 // sudoku.matrix=createMatrix(sudoku.big);
-// console.log(sudoku)
 // fillMatrix(sudoku);
 // console.log(sudoku)
-// console.log(sudoku.matrix)
+// sudoku.printMatrix; // do not know why this is as a property.
 
 
 // 3, 2, 4, 1 
 // 2, 4, 3, 1
 // 4, 1, 2, 3 
 // 1, 4, 2, 3
+
+
+/**
+* Check whether there is one last 0 in line
+* 
+* @param {array} line arrays of numbers 
+* @returns {boolean} true or false
+*/
+function checkLastFill(line){
+    var big= line.length; //can be small too
+    var last=big-1;
+    var totNonEmpty= whichNonEmpty(line).filter(Boolean).length; //check for non zero values
+    if(totNonEmpty==last){
+        return true;
+    }else{
+        return false;
+    }
+};
+// console.log(checkLastFill([1,2,0,0]));
+// console.log(checkLastFill([1,2,2,0]));
+
+
+/**
+* Check position of last fill (assumes checkLastFill = true)
+* 
+* @param {array} line arrays of numbers 
+* @returns {boolean} true or false
+*/
+function whichLastFill(line){
+    var big= line.length; 
+    var whichElm = whichNonEmpty(line).indexOf(false);
+    return whichElm;
+};
+// console.log(whichLastFill([1,2,0,4]))
+
+/**
+* Check the non empty elements (true is non-empty)
+* 
+* @param {array} line arrays of numbers 
+* @returns {array} array of true or false
+*/
+function whichNonEmpty(line){
+    
+    var map1 = line.map(elm => elm > 0);
+    return map1;
+};
+// var M=createMatrix(2**2);
+// M[1][1]=3;
+// console.log(M[1]); 
+// console.log(whichNonEmpty(M[1]));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //###################################stopped commenting here
 
@@ -449,7 +525,7 @@ function readMatrix(matrix){
 }
 
 /**
-* Filling empty matrix with numbers
+* Filling empty matrix with numbers - deprecated does not have sudoku logic
 * 
 * @param {array**2} matrix 
 * @returns {array**2} matrix
@@ -466,44 +542,6 @@ function fillMatrix2(matrix){
 // console.log(fillMatrix(createMatrix(2**2)))
 
 
-
-
-//check if there is one more element
-//basically check if there is one less element
-// make it the last element
-function checkLastFill(line){
-    var big= line.length; //can be small too
-    var last=big-1;
-    var totNonEmpty= whichNonEmpty(line).filter(Boolean).length; //check for non zero values
-    if(totNonEmpty==last){
-        return true;
-    }else{
-        return false;
-    }
-};
-// console.log(checkLastFill([1,2,3]));
-
-
-function whichLastFill(line){
-    var big= line.length; //can be small too
-    if(checkLastFill(line)){
-        var whichElm = whichNonEmpty(line).indexOf(false);
-        return whichElm;
-    }
-    
-};
-
-
-//check for non zero  elements
-function whichNonEmpty(line){
-    
-    var map1 = line.map(elm => elm > 0);
-    return map1;
-};
-// var M=createMatrix(2**2);
-// M[1][1]=3;
-// console.log(M[1]); 
-// console.log(whichNonEmpty(M[1]));
 
 function whichNonEmptyMat(matrix){
     var big= matrix.length;
@@ -559,21 +597,6 @@ function whichLastFillMatrix(matrix){
 // console.log(whichLastFillMatrix(M));
 // console.log(checkLastFillMatrix(3,0,M))
 
-
-
-
-
-
-// //Testing Code here.
-// var M=createMatrix(2**2);
-
-// for(var i=0; i< M.length; i++){
-//     fillLine(i,M); // should not actually fill the final row
-// };
-// console.log("final output of M is here");
-// console.log( M);
-
-// // console.log(M);
 
 
 

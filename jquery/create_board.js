@@ -67,3 +67,5 @@ function createBoard(big, small){
     // console.log(checkerBoard)
     
 }
+
+
